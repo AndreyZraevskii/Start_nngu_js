@@ -208,3 +208,232 @@
 // town.setSomeValue("townName", "Paris");
 // town.setSomeValue("population", "9 ml");
 // console.log(town);
+
+//////РАБОТА С КОНТЕКСТОМ ВЫЗОВА////////////////////
+
+///////// пример
+// function sayFullName(firstName, lastName) {
+//   return `${this.phrase} ${firstName} ${lastName}`;
+// }
+
+// console.log(sayFullName("Alex", "Shirokov"));
+
+// console.log(sayFullName.call({ phrase: "Hello!!" }, "Ivan", "Smirnov"));
+
+///////// пример
+// let user1 = { name: "Вася" };
+// let user2 = { name: "Петя" };
+// function say(phrase) {
+//   console.log(`${this.name} : ${phrase} `);
+// }
+// say.call(user1, "Привет");
+// say.call(user2, "И тебе привет");
+
+///////// пример
+// function sayFullName(firstName, lastName) {
+//   return `${this.phrase} ${firstName} ${lastName}`;
+// }
+
+// let boundFullName = sayFullName.bind({ phrase: "Bye!" }, "Max", "Pertov");
+
+// console.log(boundFullName());
+
+///////// пример
+// function sayFullName(firstName, lastName) {
+//   return `${this.phrase} ${firstName} ${lastName}`;
+// }
+
+// let boundFullName = sayFullName.bind({ phrase: "Bye!" }, "Max", "Pertov");
+
+// let bound2 = sayFullName.bind({ phrase: "Hello!" }, "Kate", "Pertova");
+
+// console.log(boundFullName());
+// console.log(bound2());
+
+///////// пример
+// function sayFullName(firstName, lastName) {
+//   return `${this.phrase} ${firstName} ${lastName}`;
+// }
+
+// let boundFullName = sayFullName.bind({ phrase: "Bye!" }, "Max", "Pertov");
+
+// let bound2 = sayFullName.bind({ phrase: "Hello!" });
+
+// console.log(boundFullName());
+// console.log(bound2("Kate", "Pertova"));
+
+///////// пример
+// function sayFullName(firstName, lastName) {
+//   return `${this.phrase} ${firstName} ${lastName}`;
+// }
+
+// let boundFullName = sayFullName.bind({ phrase: "Bye!" }, "Max", "Pertov");
+
+// let sayHelloKate = sayFullName.bind({ phrase: "Hello!" }, "Kate");
+
+// console.log(boundFullName());
+// console.log(sayHelloKate("Pertova"));
+// console.log(sayHelloKate("Smirnova"));
+// console.log(sayHelloKate("Ivanova"));
+
+////////////////// Практика
+// Создайте второй объект описывающий город (первый возьмите из решения задачи
+// №1). Второй объект должен содержать только свойства названия и численность.
+// ● Используя метод call() / apply() вызовите методы объекта первого города в
+// контексте объекта второго города.
+// ● Используя метод bind(), изменить свойства объекта второго города на
+// произвольные значения.
+
+// const town = {
+//   townName: "London",
+//   population: "13 ml",
+//   getTownName: function () {
+//     return this.townName;
+//   },
+//   getPopulation: function () {
+//     return this.population;
+//   },
+//   setSomeValue: function (key, value) {
+//     this[key] = value;
+//   },
+// };
+
+// const town2 = {
+//   townName: "Paris",
+//   population: "9 ml",
+// };
+
+// console.log(town.getTownName());
+// console.log(town.getTownName.call(town2));
+
+//вторая часть задачи
+// const town = {
+//   townName: "London",
+//   population: "13 ml",
+//   getTownName: function () {
+//     return this.townName;
+//   },
+//   getPopulation: function () {
+//     return this.population;
+//   },
+//   setSomeValue: function (key, value) {
+//     this[key] = value;
+//   },
+// };
+
+// const town2 = {
+//   townName: "Paris",
+//   population: "9 ml",
+// };
+
+// console.log(town2);
+
+// const bound = town.setSomeValue.bind(town2);
+
+// bound("townName", "Moscow");
+// bound("population", "25 ml");
+// bound("country", "RUS");
+
+// console.log(town2);
+
+////пример
+
+// function test() {
+//   const a = 0;
+//   console.log(a);
+//   console.log(this.a);
+// }
+
+// test();
+
+// // const bound = test.bind({ a: 10 });
+
+// // bound();
+
+////пример
+
+// function test(b) {
+//   const a = 0;
+//   console.log(b);
+// }
+
+// //   test();
+
+// const bound = test.bind({ a: 10 }, 8);
+
+// bound();
+
+////////////////////ЗАМЫКАНИЕ//////////////////
+
+// let a = 0;
+// console.log(a);
+
+// const tets = () => {
+//   a = 10;
+// };
+
+// tets();
+// console.log(a);
+
+///пример
+// function getFullName() {
+//   const firstName = "Alex";
+
+//   function getSecondName(secondName) {
+//     return `${firstName} ${secondName}`;
+//   }
+
+//   return getSecondName;
+// }
+
+// const clouser = getFullName();
+// console.log(clouser("Smirnov"));
+
+///пример
+
+// const getArea = (a) => {
+//   return (b) => a * b;
+// };
+
+// const areaWithTen = getArea(10);
+// console.log(areaWithTen(5));
+// console.log(areaWithTen(10));
+// console.log(areaWithTen(230));
+
+// const areaWithFour = getArea(4);
+// console.log(areaWithFour(3));
+// console.log(areaWithFour(21));
+
+///пример
+// function example() {
+//   let closure = 100;
+//   return function (b) {
+//     return closure + b;
+//   };
+// }
+// const closureExample = example();
+// console.log(closureExample(100));
+
+// Практика
+// ● Используя замыкание написать функцию которая будет вычислять объём
+// параллелепипеда с высотой 10.
+
+// const getVolumeParal = (a) => {
+//   return (b, c) => a * b * c;
+// };
+
+// const volumeSum = getVolumeParal(3);
+
+// console.log(volumeSum(5, 4));
+
+// вариант 2
+
+// const getVol = (height) => (width, length) => height * width * length;
+// const getAll = getVol(10);
+// console.log(getAll(4, 5));
+// console.log(getAll(3, 3));
+// const getAll2 = getVol(5);
+// console.log(getAll(4, 3));
+
+// ● Используя каррирование написать функцию которая будет вычислять объём
+// параллелепипеда.
